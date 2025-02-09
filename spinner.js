@@ -1,62 +1,94 @@
+let currentSearchText = '';
+
 const hendleSearch = () => {
-    console.log('hellow');
+    console.log('hellow')
     document.getElementById('spinner').classList.remove('hidden');
+    const searchText = document.getElementById('search-input').value;
+    currentSearchText = searchText;
     setTimeout(() => {
-        loadAllPhones();
-    }, 3000);
+        loadAllPhones(false, searchText);
+    }, 2000)
 }
 
-const loadAllPhones = async (status) => {
-    console.log('wow 3 second after!');
 
+
+const loadAllPhones = async (status, searchText) => {
+    console.log('wow 2 second after');
     document.getElementById('spinner').classList.add('hidden');
 
+    const response = await fetch(`https://openapi.programming-hero.com/api/phones?search=${searchText ? searchText : "iphone"}`);
 
-    const res = await fetch('https://openapi.programming-hero.com/api/phones?search=iphone');
-    const data = await res.json();
+    const data = await response.json();
 
-
-    if (status) {
-        displayPhohes(data.data);
-    }
-    else {
-        displayPhohes(data.data.slice(0, 6));
-    }
-
-}
-
-const displayPhohes = (phones) => {
-    // console.log(phones);
-    const displayHalfData = document.getElementById('display-half-data');
-    
-
-    for (const phone of phones) {
-
-    const card = document.createElement('div');
-    card.innerHTML = `
-    <div class="card border-2">
-    <figure class="h-[400px] px-2 py-2 shadow-lg">
-        <img class="h-full w-full " src="${phone.image}" />
-    </figure>
-    <div class="card-body">
-        <h2 class="text-3xl">${phone.brand}</h2>
-        <p class="font-bold">${phone.phone_name}</p>
-    </div>
-    </div>
-    
-    `;
-        displayHalfData.appendChild(card);
-        card.value= '';
-    }
-
+    displayAllPhones(data.data, status);
 
 
 
 }
 
-const showAllPhones = () => {
-    loadAllPhones(true);
+
+
+const displayAllPhones = (data, status) => {
+    const phoneContainer = document.getElementById('phone-container');
+    phoneContainer.innerHTML = '';
+
+    if (status === true) {
+        // console.log(data);
+        data.forEach((phone) => {
+            console.log(phone)
+            const card = document.createElement('div');
+
+            const { brand, phone_name, slug, image } = phone;
+
+            card.innerHTML = `
+            <div class="card border-2 p-2 shadow-md ">
+            <figure>
+                <img
+                src="${image}" />
+            </figure>
+            <div class="card-body">
+                <h2 class="text-3xl font-bold">${brand}</h2>
+                <p>${phone_name}</p>
+
+                <div class="card-actions justify-end">
+                <button class="btn btn-primary">Buy Now</button>
+                </div>
+            </div>
+            </div>
+            `;
+            phoneContainer.appendChild(card);
+        });
+
+    } else {
+        data.slice(0, 6).forEach((phone) => {
+            console.log(phone)
+            const card = document.createElement('div');
+
+            const { brand, phone_name, slug, image } = phone;
+
+            card.innerHTML = `
+            <div class="card border-2 p-2 shadow-md ">
+            <figure>
+                <img
+                src="${image}" />
+            </figure>
+            <div class="card-body">
+                <h2 class="text-3xl font-bold">${brand}</h2>
+                <p>${phone_name}</p>
+
+                <div class="card-actions justify-end">
+                <button class="btn btn-primary">Details</button>
+                </div>
+            </div>
+            </div>
+            `;
+            phoneContainer.appendChild(card);
+        });
+    }
+
 
 }
 
-
+const showAllButton = () => {
+    loadAllPhones(true, currentSearchText);
+}

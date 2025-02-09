@@ -4,23 +4,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spinner Loader create</title>
-
+    <title>Create a search navber with loader icon</title>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.23/dist/full.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
-
 </head>
 
 <body>
 
-
-
-    <div class="flex justify-center items-center gap-2 mt-10">
-        <div>
-            <input type="text" placeholder="Search" class="input input-bordered w-24 md:w-auto" />
-        </div>
-
-        <button onclick="hendleSearch()" class="btn bg-green-500">Search</button>
+    <div class="flex justify-center items-center mt-10">
+        <input id="search-input" type="text" class="border-2 p-1" placeholder="search text">
+        <button onclick="hendleSearch()" class="px-2 py-1 bg-green-500">Search</button>
     </div>
     <!-- // Spinner Loader -->
 
@@ -28,16 +21,14 @@
         <span id="spinner" class="loading loading-spinner text-secondary hidden"></span>
     </div>
 
-    <div id="display-half-data" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 px-10 py-5">
+    <!-- Phone container -->
+    <div id="phone-container" class="px-10 grid grid-cols-1 gap-2 lg:grid-cols-4">
 
     </div>
 
-    <div onclick="showAllPhones()" class="text-center mt-10">
-        <button class="btn bg-green-500 ">Show All</button>
+    <div class="text-center mt-5">
+        <button onclick="showAllButton()" class="btn bg-green-500">Show All</button>
     </div>
-
-
-
 
 
 
